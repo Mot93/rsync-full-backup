@@ -43,7 +43,7 @@ if [ "$filesystem" != "" ]; then
         echo "Could not mount the filesystem"
         exit 1
     fi
-    echo "mounted"
+    echo "mounted $filesystem in $backupfolder"
 fi
 
 # TODO: optional what to exclude from the backup
@@ -59,7 +59,7 @@ fi
 # If specified, unmount the file system used to store the backup
 if [ "$unmount" = true ]; then
     sudo umount "$bckfolder"
-    echo "unmounted"
+    echo "unmounted $filesystem from $backupfolder"
 fi
 
 echo "Backup finished"
