@@ -1,7 +1,7 @@
 #!/bin/bash
 
-bckfolder="$2"
-bcksource="$1"
+bckfolder="${@: -1}"
+bcksource="${*: -2:1}"
 # Check if the backup destination folder exists and it's a folder
 if ! [[ -d "$bckfolder" ]]; then
     echo "Invalid folder to use for the backup"
@@ -13,16 +13,20 @@ fi
 filesystem=""
 unmount=false
 exclude=""
-while getopts ":f:u:" options; do
+while getopts ":f:e:u" options; do
 
     case "${options}" in
         f)
-            echo "f registered"
+            #echo "f registered ${OPTARG}"
             filesystem=${OPTARG}
             ;;
         u)
-            echo "u registered"
+            echo "u registered ${OPTARG}"
             unmount=true
+            ;;
+        e)
+            echo "e registered ${OPTARG}"
+            exclude=${OPTARG}
             ;;
         *)
             echo "Invalid argument $OPTARG"
@@ -46,11 +50,11 @@ fi
 
 # Execute the backup
 if [ "$exclude" = "" ]; then
-    # rsync -aAXv "$bcksource" "$bckfolder"
     echo "rsync -aAXv $bcksource $bckfolder"
+    #sudo rsync -aAXv "$bcksource" "$bckfolder"
 else
-    # sudo rsync -aAXv --exclude="$exclude" "$bcksource" "$bckfolder"
     echo "rsync -aAXv --exclude=$exclude $bcksource $bckfolder"
+    #sudo rsync -aAXv --exclude="$exclude" "$bcksource" "$bckfolder"
 fi
 # If specified, unmount the file system used to store the backup
 if [ "$unmount" = true ]; then
