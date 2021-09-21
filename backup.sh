@@ -21,11 +21,11 @@ while getopts ":f:e:u" options; do
             filesystem=${OPTARG}
             ;;
         u)
-            echo "u registered ${OPTARG}"
+            #echo "u registered ${OPTARG}"
             unmount=true
             ;;
         e)
-            echo "e registered ${OPTARG}"
+            #echo "e registered ${OPTARG}"
             exclude=${OPTARG}
             ;;
         *)
@@ -46,15 +46,13 @@ if [ "$filesystem" != "" ]; then
     echo "mounted $filesystem in $backupfolder"
 fi
 
-# TODO: optional what to exclude from the backup
-
 # Execute the backup
 if [ "$exclude" = "" ]; then
     echo "rsync -aAXv $bcksource $bckfolder"
-    #sudo rsync -aAXv "$bcksource" "$bckfolder"
+    sudo rsync -aAXv "$bcksource" "$bckfolder"
 else
     echo "rsync -aAXv --exclude=$exclude $bcksource $bckfolder"
-    #sudo rsync -aAXv --exclude="$exclude" "$bcksource" "$bckfolder"
+    sudo rsync -aAXv --exclude="$exclude" "$bcksource" "$bckfolder"
 fi
 # If specified, unmount the file system used to store the backup
 if [ "$unmount" = true ]; then
