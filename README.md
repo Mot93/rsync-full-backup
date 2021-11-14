@@ -1,4 +1,4 @@
-# rsync_full_backup
+# rsync-full-backup
 A small python script to perform a full backup of your linux system using the rsync tool
 
 ## Requirements
